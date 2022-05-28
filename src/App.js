@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import GeneralInfo from "./components/GeneralInfo";
 import Education from "./components/Education";
+import Skills from "./components/Skills";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,11 +30,13 @@ class App extends React.Component {
   }
 
   render() {
+    document.title = "CV Generator";
     const general = this.state.general;
     return (
       <div className="App">
         <GeneralInfo onSubmit={this.sectionOnSave} />
         <Education onSubmit={this.sectionOnSave}/>
+        <Skills onSubmit={this.sectionOnSave}/>
       </div>
     );
   }

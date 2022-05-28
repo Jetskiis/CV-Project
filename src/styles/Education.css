@@ -1,0 +1,82 @@
+/* parent div */
+.education {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2rem;
+  font-size: 1.1rem;
+  line-height: 0;
+}
+
+.education h1 {
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+/* editing div */
+.editingEducationInfo {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  column-gap: 1.5rem;
+  row-gap: 1.5rem;
+}
+
+.editingEducationInfo div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.editingEducationInfo label {
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.editingEducationInfo input {
+  padding: 0.5rem;
+}
+
+
+/*submitted div */
+
+.submittedEducationInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.submittedEducationText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.submittedEducationText div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.submittedEducationText button {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 1rem 0 1rem;
+  font-weight: bold;
+  background-color: whitesmoke;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+button {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  background-color: whitesmoke;
+}
