@@ -22,7 +22,7 @@ class App extends React.Component {
   }
 
   sectionOnSave(section, data) {
-    if (section === "general" || section === "education") {
+    if (section === "general" || section === "education" || section === "skills") {
       this.setState({
         [section]: data,
       });
