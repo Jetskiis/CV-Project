@@ -78,7 +78,7 @@ class GeneralInfo extends React.Component {
     return (
       <div className="editingGeneralInfo">
         <div>
-          <label htmlFor="first-name">First Name</label>
+          <label htmlFor="first-name">First Name:</label>
           <input
             type="text"
             id="first-name"
@@ -90,7 +90,7 @@ class GeneralInfo extends React.Component {
         </div>
 
         <div>
-          <label htmlFor="last-name">Last Name</label>
+          <label htmlFor="last-name">Last Name:</label>
           <input
             type="text"
             id="last-name"
@@ -101,7 +101,7 @@ class GeneralInfo extends React.Component {
           ></input>
         </div>
         <div>
-          <label htmlFor="phone-number">Phone Number</label>
+          <label htmlFor="phone-number">Phone Number:</label>
           <input
             type="tel"
             id="phone-number"
@@ -116,7 +116,7 @@ class GeneralInfo extends React.Component {
         </div>
 
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
@@ -131,7 +131,7 @@ class GeneralInfo extends React.Component {
         </div>
 
         <div>
-          <label htmlFor="location">Location</label>
+          <label htmlFor="location">Location (optional):</label>
           <input
             type="text"
             id="location"

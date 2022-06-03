@@ -3,6 +3,7 @@ import "./App.css";
 import GeneralInfo from "./components/GeneralInfo";
 import Education from "./components/Education";
 import Skills from "./components/Skills";
+import Experience from "./components/Experience";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +23,7 @@ class App extends React.Component {
   }
 
   sectionOnSave(section, data) {
-    if (section === "general" || section === "education" || section === "skills") {
+    if (section === "general" || section === "education" || section === "skills" || section === "experience") {
       this.setState({
         [section]: data,
       });
@@ -37,6 +38,7 @@ class App extends React.Component {
         <GeneralInfo onSubmit={this.sectionOnSave} />
         <Education onSubmit={this.sectionOnSave}/>
         <Skills onSubmit={this.sectionOnSave}/>
+        <Experience onSubmit={this.sectionOnSave}/>
       </div>
     );
   }
