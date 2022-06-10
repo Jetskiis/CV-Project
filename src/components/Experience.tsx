@@ -1,19 +1,34 @@
 import { nanoid } from "nanoid";
-import React from "react";
+import * as React from "react";
 import "../styles/Experience.css";
-class Experience extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      experienceObjArray: [],
-      name: "",
-      desc: "",
-      "from-date": "",
-      "to-date": "",
-      location: "",
-      isEditingNew: true,
-    };
 
+interface Props {
+  onSubmit: (section: string, data: any) => void;
+}
+
+interface State {
+  experienceObjArray: expObj[],
+  "name": string,
+  "desc": string,
+  "from-date": string,
+  "to-date": string,
+  "location"?: string,
+  isEditingNew: boolean
+}
+
+type expObj = {
+  "id": string,
+  "name": string,
+  "desc": string,
+  "from-date": string,
+  "to-date": string,
+  "location"?: string,
+  "isEditing": boolean
+}
+
+class Experience extends React.Component<Props, State>{
+  constructor(props: Props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.editEntry = this.editEntry.bind(this);
@@ -22,19 +37,31 @@ class Experience extends React.Component {
     this.submittedForm = this.submittedForm.bind(this);
   }
 
-  onChange(e) {
-    const arg = e.target.id;
-    const val = e.target.value;
-    this.setState({ [arg]: val });
+  state: State = {
+    experienceObjArray: [],
+    name: "",
+    desc: "",
+    "from-date": "",
+    "to-date": "",
+    location: "",
+    isEditingNew: true,
   }
 
-  onSubmit(e, isEdited, id) {
+  onChange(e: React.ChangeEvent): void {
+    if (e.target != null) {
+      const arg: string = (e.target as HTMLFormElement).id;
+      const val: string = (e.target as HTMLFormElement).value;
+      this.setState((prev: State) => ({ ...prev, [arg]: val }));
+    }
+  }
+
+  onSubmit(e: React.FormEvent, isEdited: boolean, id: (string | null)) {
     const state = this.state;
 
     e.preventDefault();
 
     if (!isEdited) {
-      const experienceObj = {};
+      const experienceObj = {} as expObj;
       experienceObj["name"] = state["name"];
       experienceObj["desc"] = state["desc"];
       experienceObj["from-date"] = state["from-date"];
@@ -43,7 +70,7 @@ class Experience extends React.Component {
       experienceObj["isEditing"] = false;
       experienceObj["id"] = nanoid();
       this.setState(
-        (state) => ({
+        (state: State) => ({
           experienceObjArray: [...state.experienceObjArray, experienceObj],
         }),
         () => this.props.onSubmit("experience", this.state.experienceObjArray)
@@ -57,17 +84,18 @@ class Experience extends React.Component {
       //no longer editing because form submitted
       this.setState({ isEditingNew: false });
     } else {
-      const form = e.target;
+      const form: HTMLFormElement = e.target as HTMLFormElement;
       const entryArr = this.state.experienceObjArray;
+      const elements: any = form.elements;
 
-      entryArr.forEach((obj) => {
+      entryArr.forEach((obj: expObj) => {
         if (obj["id"] === id) {
           obj["isEditing"] = false;
-          obj["name"] = form.elements["name"].value;
-          obj["desc"] = form.elements["desc"].value;
-          obj["from-date"] = form.elements["from-date"].value;
-          obj["to-date"] = form.elements["to-date"].value;
-          obj["location"] = form.elements["location"].value;
+          obj["name"] = elements["name"].value;
+          obj["desc"] = elements["desc"].value;
+          obj["from-date"] = elements["from-date"].value;
+          obj["to-date"] = elements["to-date"].value;
+          obj["location"] = elements["location"].value;
           return obj;
         } else return obj;
       });
@@ -78,11 +106,11 @@ class Experience extends React.Component {
     }
   }
 
-  editEntry(e) {
+  editEntry(e: React.MouseEvent): void {
     const entryArr = this.state.experienceObjArray;
-    const id = e.target.parentElement.parentElement.getAttribute("id");
+    const id = (e.target as HTMLFormElement)?.parentElement?.parentElement?.getAttribute("id");
 
-    entryArr.forEach((obj) => {
+    entryArr.forEach((obj: expObj) => {
       if (obj["id"] === id) {
         obj["isEditing"] = true;
         return obj;
@@ -91,11 +119,11 @@ class Experience extends React.Component {
     this.setState({ experienceObjArray: entryArr });
   }
 
-  deleteEntry(e) {
+  deleteEntry(e: React.MouseEvent): void {
     let entryArr = this.state.experienceObjArray;
-    const id = e.target.parentElement.parentElement.getAttribute("id");
+    const id = (e.target as HTMLFormElement)?.parentElement?.parentElement?.getAttribute("id");
 
-    entryArr = entryArr.filter((obj) => obj["id"] !== id);
+    entryArr = entryArr.filter((obj: expObj) => obj["id"] !== id);
     if (this.state.experienceObjArray.length === 1)
       this.setState({ isEditingNew: true });
 
@@ -104,18 +132,16 @@ class Experience extends React.Component {
     );
   }
 
-  editingForm(editObj) {
-    const arr = this.state.experienceObjArray;
-
+  editingForm(editObj: expObj | null): JSX.Element {
     return (
       <form
         onSubmit={(e) => {
-          if (editObj !== undefined)
+          if (editObj !== null)
             return this.onSubmit(e, true, editObj["id"]);
           else return this.onSubmit(e, false, null);
         }}
         className="editingExperienceInfo"
-        key={editObj !== undefined ? editObj["id"] : ""}
+        key={editObj !== null ? editObj["id"] : ""}
       >
         <div>
           <label htmlFor="name">Name Of Workplace:</label>
@@ -123,20 +149,19 @@ class Experience extends React.Component {
             type="text"
             id="name"
             placeholder="Name of Workplace"
-            onChange={editObj !== undefined ? null : this.onChange}
+            onChange={editObj !== null ? undefined : this.onChange}
             required
-          ></input>
+          />
         </div>
 
         <div>
           <label htmlFor="desc">Description:</label>
           <textarea
-            type="text"
             id="desc"
             placeholder="Description"
-            onChange={editObj !== undefined ? null : this.onChange}
+            onChange={editObj !== null ? undefined : this.onChange}
             required
-          ></textarea>
+          />
         </div>
 
         <div>
@@ -144,9 +169,9 @@ class Experience extends React.Component {
           <input
             type="date"
             id="from-date"
-            onChange={editObj !== undefined ? null : this.onChange}
+            onChange={editObj !== null ? undefined : this.onChange}
             required
-          ></input>
+          />
         </div>
 
         <div>
@@ -154,9 +179,9 @@ class Experience extends React.Component {
           <input
             type="date"
             id="to-date"
-            onChange={editObj !== undefined ? null : this.onChange}
+            onChange={editObj !== null ? undefined : this.onChange}
             required
-          ></input>
+          />
         </div>
 
         <div>
@@ -165,15 +190,15 @@ class Experience extends React.Component {
             type="text"
             id="location"
             placeholder="Location"
-            onChange={editObj !== undefined ? null : this.onChange}
-          ></input>
+            onChange={editObj !== null ? undefined : this.onChange}
+          />
         </div>
         <button type="submit">Submit</button>
       </form>
     );
   }
 
-  submittedForm(obj) {
+  submittedForm(obj: expObj): JSX.Element {
     return (
       <div className="submittedExperienceText" id={obj.id} key={obj.id}>
         <div>
@@ -208,7 +233,7 @@ class Experience extends React.Component {
     );
   }
 
-  render() {
+  render(): React.ReactNode {
     const state = this.state;
     const arr = state.experienceObjArray;
     return (
@@ -217,14 +242,14 @@ class Experience extends React.Component {
         <div className="submittedExperienceInfo">
           {/* render already submitted input*/}
           {arr.length !== 0
-            ? arr.map((obj) => {
-                if (obj["isEditing"]) return this.editingForm(obj);
-                else return this.submittedForm(obj);
-              })
+            ? arr.map((obj: expObj) => {
+              if (obj["isEditing"]) return this.editingForm(obj);
+              else return this.submittedForm(obj);
+            })
             : null}
         </div>
         {/*display editing form */}
-        {state.isEditingNew ? this.editingForm() : null}
+        {state.isEditingNew ? this.editingForm(null) : null}
         {/*if experience submitted at least once and not currently editing display add button */}
         {!state.isEditingNew && arr.length !== 0 ? (
           <button

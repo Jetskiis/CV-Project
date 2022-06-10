@@ -1,15 +1,25 @@
 import { nanoid } from "nanoid";
-import React from "react";
+import * as React from "react";
 import "../styles/Skills.css";
 
-class Skills extends React.Component {
-  constructor(props) {
+interface Props {
+  onSubmit: (section: string, data: any) => void;
+}
+
+interface State {
+  skills: Skill[],
+  newSkill: string,
+  isEditing: boolean
+}
+
+type Skill = {
+  val: string,
+  id: string
+}
+
+class Skills extends React.Component<Props, State>{
+  constructor(props: Props) {
     super(props);
-    this.state = {
-      skills: [],
-      newSkill: "",
-      isEditing: true,
-    };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.deleteEntry = this.deleteEntry.bind(this);
@@ -17,42 +27,47 @@ class Skills extends React.Component {
     this.submittedForm = this.submittedForm.bind(this);
   }
 
-  onChange(e) {
-    const val = e.target.value;
+  state: State = {
+    skills: [],
+    newSkill: "",
+    isEditing: true,
+  }
+
+  onChange(e: React.ChangeEvent): void {
+    const val = (e.target as HTMLFormElement).value;
     this.setState({
       newSkill: val,
     });
   }
 
-  onSubmit(e) {
-    const item = {};
+  onSubmit(): void {
+    let item: Skill = {} as Skill;
     const val = this.state.newSkill;
 
     item["val"] = val;
     item["id"] = nanoid();
 
-    this.setState(
-      (state) => ({
-        skills: [...state.skills, item],
-      }),
+    this.setState((state: State) => ({
+      skills: [...state.skills, item],
+    }),
       () => this.props.onSubmit("skills", this.state.skills)
     );
-    this.setState((prevState) => ({ isEditing: !prevState.isEditing }));
+    this.setState((prevState: State) => ({ isEditing: !prevState.isEditing }));
     this.setState({ newSkill: "" });
   }
 
-  deleteEntry(e) {
+  deleteEntry(e: React.MouseEvent): void {
     let entryArr = this.state.skills;
-    const id = e.target.parentElement.parentElement.getAttribute("id");
+    const id = (e.target as HTMLFormElement)?.parentElement?.parentElement?.getAttribute("id");
 
-    entryArr = entryArr.filter((obj) => obj["id"] !== id);
+    entryArr = entryArr.filter((obj: Skill) => obj["id"] !== id);
 
     this.setState({ skills: entryArr }, () =>
       this.props.onSubmit("skills", entryArr)
     );
   }
 
-  editingForm() {
+  editingForm(): JSX.Element {
     const state = this.state;
     return (
       <div className="editingSkillsInfo">
@@ -70,8 +85,7 @@ class Skills extends React.Component {
     );
   }
 
-  submittedForm(obj) {
-    const state = this.state;
+  submittedForm(obj: Skill): JSX.Element {
     return (
       <li className="submittedSkillsText" id={obj.id} key={obj.id}>
         <div>
@@ -92,7 +106,7 @@ class Skills extends React.Component {
           <ul>
             {/* render already submitted input*/}
             {arr.length !== 0
-              ? arr.map((obj) => this.submittedForm(obj))
+              ? arr.map((obj: Skill) => this.submittedForm(obj))
               : null}
           </ul>
         </div>
