@@ -1,4 +1,4 @@
-CV generator website done using React and CSS
+CV generator website done using React, TypeScript and CSS
 <br>
 <br>
 Live demo: https://jetskiis.github.io/CV-Project/
