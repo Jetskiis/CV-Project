@@ -4,6 +4,8 @@ CV generator website done using React, TypeScript and CSS
 Live demo: https://jetskiis.github.io/CV-Project/
 <br>
 <br>
+Netlify: https://jolly-kleicha-50a8fd.netlify.app/
+<br>
 Features:
 - CV has 4 sections - General Info, Education, Skills, Experience
 - Users can edit or delete their info for the last 3 sections

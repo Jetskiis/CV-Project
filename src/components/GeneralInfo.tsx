@@ -74,6 +74,7 @@ class GeneralInfo extends React.Component<Props, State>{
     const general = this.state.general;
     let phoneError: string = "";
     let emailError: string = "";
+    //eslint-disable-next-line
     let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 
     if (!general.email.includes("@")) {
